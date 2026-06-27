@@ -11,11 +11,10 @@ const userSchema = new mongoose.Schema({
     lastSeen:{type:Date,default:Date.now},
 },{timestamps:true})
 
-userSchema.pre("save",async function (next){ // don't use arrow function
-    if(!this.isModified("password")) // user.save() time password new hain phir bhi, will marked as modified
-        return next();
+userSchema.pre("save",async function (){ // don't use arrow function
+    if(!this.isModified("password")) //user.save() time password new hain phir bhi, will marked as modified
+        return;
     this.password = await bcrypt.hash(this.password,10);
-    next();
 })
 
 const User = mongoose.model("User",userSchema);
