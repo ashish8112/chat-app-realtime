@@ -43,7 +43,7 @@ router.post("/login",async(req,res)=>{
 router.get("/users",authMiddleware,async(req,res)=>{
     try{
         const users = await User.find({_id:{$ne:req.user.id}}).select("-password")///ne not equall
-        if(!users)
+        if(users.length===0)
             return res.status(404).json({message:"No user Found"})
         return res.status(200).json(users);
     }
@@ -51,5 +51,6 @@ router.get("/users",authMiddleware,async(req,res)=>{
         return res.status(500).json({message:err.message})
     }
 })
+
 
 module.exports = router;
