@@ -8,8 +8,10 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.post("/register",async(req,res)=>{
     try{
         const {username,name,email,password,avatar} = req.body;
-        const usernameCheck = await User.findOne({username});
-        const emailCheck = await User.findOne({email});
+        const[usernameCheck,emailCheck] = await Promise.all([
+            User.findOne({username}),
+            User.findOne({email})
+        ])
         if(usernameCheck)
             return res.status(400).json({message:"username taken"});
         if(emailCheck)
