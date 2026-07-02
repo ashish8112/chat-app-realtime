@@ -1,5 +1,5 @@
 import axios from "axios"
-const API = axios.create({baseURL:import.meta.env.VITE_API_URL || "http://localhost:300/api"})
+const API = axios.create({baseURL:import.meta.env.VITE_API_URL || "http://localhost:3000/api"})
 API.interceptors.request.use((config)=>{
     const user = JSON.parse(localStorage.getItem("chatUser"));
     if(user?.token)config.headers.Authorization=`Bearer ${user.token}`
