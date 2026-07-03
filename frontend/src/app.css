@@ -1,4 +1,4 @@
-.loginContainer {
+.loginContainer , .registerContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@
 
 
 
-.loginContainer .login-form {
+.loginContainer .login-form ,.register-form{
   background: #ffffff;
   padding: 40px;
   border-radius: 12px;
@@ -20,7 +20,7 @@
   max-width: 420px;
 }
 
-.loginContainer h2 {
+.loginContainer h2 , .registerContainer h2{
   margin: 0 0 1.75rem 0;
   text-align: center;
   color: #111827;
@@ -29,14 +29,14 @@
 }
 
 
-.loginContainer .input-group {
+.loginContainer .input-group , .registerContainer .inputGroup {
   position: relative;
   margin-bottom: 24px;
   display: flex;
   flex-direction: column-reverse; 
 }
 
-.loginContainer .input-group input {
+.loginContainer .input-group input ,.registerContainer .inputGroup input{
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #d1d5db;
@@ -48,12 +48,12 @@
 }
 
 
-.loginContainer .input-group input:focus {
+.loginContainer .input-group input:focus , .registerContainer .inputGroup input:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
-.loginContainer .input-group label {
+.loginContainer .input-group label, .inputGroup label {
   display: block;
   margin-bottom: 6px;
   color: #4b5563;
@@ -61,7 +61,7 @@
   font-weight: 500;
 }
 
-.loginContainer .login-btn {
+.loginContainer .login-btn , .signup-btn {
   width: 100%;
   padding: 14px;
   background-color: #2563eb; 
@@ -75,28 +75,28 @@
   transition: background-color 0.2s;
 }
 
-.loginContainer .login-btn:hover {
+.loginContainer .login-btn:hover , .signup-btn:hover {
   background-color: #1d4ed8;
 }
 
-.loginContainer .login-btn:active {
+.loginContainer .login-btn:active ,.signup-btn:active {
   background-color: #1e40af;
 }
 
-.loginContainer .signup-text {
+.loginContainer .signup-text ,.login-text {
   text-align: center;
   margin: 24px 0 0 0;
   font-size: 14px;
   color: #4b5563;
 }
 
-.loginContainer .signup-text a {
+.loginContainer .signup-text a ,.login-text{
   color: #2563eb;
   text-decoration: none;
   font-weight: 600;
 }
 
-.loginContainer .signup-text a:hover {
+.loginContainer .signup-text a:hover ,.login-text:hover {
   text-decoration: underline;
   color: #1d4ed8;
 }
