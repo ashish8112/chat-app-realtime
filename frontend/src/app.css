@@ -1,0 +1,102 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f3f4f6; 
+  font-family:  sans-serif;
+  box-sizing: border-box;
+}
+
+
+
+
+.loginContainer .login-form {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  max-width: 420px;
+}
+
+.loginContainer h2 {
+  margin: 0 0 1.75rem 0;
+  text-align: center;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+.loginContainer .input-group {
+  position: relative;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column-reverse; 
+}
+
+.loginContainer .input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #1f2937;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+.loginContainer .input-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.loginContainer .input-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loginContainer .login-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #2563eb; 
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+.loginContainer .login-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.loginContainer .login-btn:active {
+  background-color: #1e40af;
+}
+
+.loginContainer .signup-text {
+  text-align: center;
+  margin: 24px 0 0 0;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.loginContainer .signup-text a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.loginContainer .signup-text a:hover {
+  text-decoration: underline;
+  color: #1d4ed8;
+}
