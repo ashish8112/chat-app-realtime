@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .loginContainer , .registerContainer {
   display: flex;
   justify-content: center;
@@ -96,4 +101,57 @@
 .loginContainer .signup-text a:hover ,.login-text:hover {
   text-decoration: underline;
   color: #1d4ed8;
+}
+
+
+.home-container{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+#sidebar-heading{
+  display: flex;
+  gap:0.5rem;
+}
+#sidebar-heading #public-btn{
+  cursor: pointer;
+  position: relative;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.81rem;
+  color: rgb(193, 163, 98);
+  border: 2px solid rgb(193, 163, 98);
+  border-radius: 34px;
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  overflow: hidden;
+}
+#sidebar-heading #public-btn::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: inherit;
+  scale: 0;
+  z-index: -1;
+  background-color: rgb(193, 163, 98);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+#sidebar-heading #public-btn:hover::before {
+  scale: 5;
+}
+#sidebar-heading #public-btn:hover {
+  color: #212121;
+  box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
+}
+#sidebar-heading #public-btn:active {
+  scale: 1;
+}
+li{
+  list-style: none;
 }
