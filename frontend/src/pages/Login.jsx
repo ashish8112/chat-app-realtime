@@ -34,7 +34,7 @@ export default function Login(){
         <h2>Welcome Back</h2>
         <div className="input-group">
             <input type="text" name="email" value={formData.email} onChange={handleChange}/>
-            <label>Username</label>
+            <label>Email</label>
         </div>
         <div className="input-group">
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
