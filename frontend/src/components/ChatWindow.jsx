@@ -45,19 +45,12 @@ export default function ChatWindow({room}){
         return <p>Select a room to start Chatting</p>
     if(loading)
         return <p>Loading Messages ...</p>
-    if(messages.length===0)
-        return (
-        <div className="chat-window">
-            <h1>Chat window</h1>
-            <p style={{marginBottom:"0.6rem"}}>Type first Message in this Room</p>
-            <input value={content} onChange={(e)=>setContent(e.target.value)} />
-            <button onClick={sendMessage}>Send</button>
-        </div>)
         
     return(
         <div className="chat-window">
         <h1>Chat window</h1>
-        {messages.map((message)=>(
+        {messages.length===0?<p style={{marginBottom:"0.6rem"}}>Type first Message in this Room</p>: 
+        messages.map((message)=>(
             <div key={message._id} className="message-box">
             {message.sender.username}: {message.content}
             </div>
