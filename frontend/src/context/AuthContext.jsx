@@ -27,6 +27,10 @@ export default function AuthProvider({children}){
         connectSocket(data.token);
         return data;
     }
+
+
+
+    
     async function logout(){
         localStorage.removeItem("chatUser");
         setUser(null);
