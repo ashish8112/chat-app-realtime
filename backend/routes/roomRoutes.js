@@ -38,7 +38,7 @@ router.get("/:roomId/messages",authMiddleware,async(req,res)=>{
         if(!roomCheck)
             return res.status(404).json({message:"Room doesn't exist"})
         const messages = (await Message.find({room:roomId,type:"room"})
-        .populate("sender","username avatar")
+        .populate("sender","username avatar name")
         .sort({createdAt:-1})//descending latest message to previous messsage  
         .limit(50));
         if(messages.length===0)
