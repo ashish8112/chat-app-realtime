@@ -8,7 +8,7 @@ const roomRoutes = require("./routes/roomRoutes")
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
-const message = require("./models/Message");
+const Message = require("./models/Message");
 
 const app = express();
 const server = http.createServer(app);
@@ -31,7 +31,7 @@ io.use(async(socket,next)=>{
 io.on("connection",async(socket)=>{
     console.log("User Connected :"+socket.user.username);
     await User.findByIdAndUpdate(socket.user._id,{isOnline:true})
-    io.emit("userOnline",{userId:socket.user._id})
+    io.emit("userOnline",{userId:socket.user._id,username:socket.user.username})
     socket.join(`user_${socket.user._id}`)
 
     socket.on("disconnect",async()=>{
@@ -58,6 +58,7 @@ io.on("connection",async(socket)=>{
 
     socket.on("sendMessage",async({roomId,content})=>{
         try{
+            console.log("sendMessage received:", roomId, content)
         const message = new Message({
             room:roomId,
             sender:socket.user._id,
@@ -65,7 +66,7 @@ io.on("connection",async(socket)=>{
             type:"room"
         })
         await message.save();
-        await message.populate("sender","username avatar")
+        await message.populate("sender","username avatar name")
         io.to(roomId).emit("newMessage",message)
         }
         catch(err){
