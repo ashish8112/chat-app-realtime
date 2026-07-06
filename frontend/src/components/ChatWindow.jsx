@@ -6,7 +6,7 @@ export default function ChatWindow({room,user}){
     const [loading,setLoading] = useState(true);
     const [content,setContent] = useState("");
     useEffect(()=>{
-        setMessages([])
+        setMessages([]) // when chat window  changed during interval of async message should be clean
         setLoading(true)
          if(room)
          {
