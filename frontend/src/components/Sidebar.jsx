@@ -49,9 +49,9 @@ export default function Sidebar({onRoomSelect,onUserSelect}){
         </ul>
             <div className="sidebar-secondaryHeading">
                 <h1 className="private-heading" style={{textAlign:"center"}}>Private Chat</h1>
-                <ul className="privateRoom-container">
+                <ul className="publicRoom-container">
                 {users.map((user)=>(
-                    <li key={user.username} className="privateRoom-list" onClick={()=>{onUserSelect(user);onRoomSelect(null)}}>
+                    <li key={user.username} className="publicRoom-list" onClick={()=>{onUserSelect(user);onRoomSelect(null)}}>
                         {user.username}
                     </li>
                 ))} 
