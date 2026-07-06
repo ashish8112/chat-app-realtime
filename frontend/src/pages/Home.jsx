@@ -5,11 +5,12 @@ import { useState } from "react";
 export default function Home(){
     const navigate = useNavigate();
     const [selectedRoom,setSelectedRoom] = useState(null);
+    const [selectedUser,setSelectedUser] = useState(null);
     return (
         <>
         <div className="home-container">
-        <Sidebar onRoomSelect={setSelectedRoom}/>
-        <ChatWindow room={selectedRoom}/>
+        <Sidebar onRoomSelect={setSelectedRoom} onUserSelect={setSelectedUser}/>
+        <ChatWindow room={selectedRoom} user={selectedUser}/>
         </div>
         </>
     )
