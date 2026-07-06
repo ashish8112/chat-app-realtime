@@ -4,9 +4,11 @@ import Home from "./pages/Home"
 import './app.css'; 
 import Register from "./pages/Register";
 import PortectedRoute from "./protectedRoute/ProtectedRoute";
+import Navbar from "./components/Navbar";
 export default function App(){
   return(
     <>
+      <Navbar/>
       <Routes>
           <Route path="/" element={
             <PortectedRoute>
