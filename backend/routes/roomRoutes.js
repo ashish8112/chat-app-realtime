@@ -16,6 +16,28 @@ router.get("/",async(req,res)=>{
     }
 })
 
+router.get("/:recipient/dm",authMiddleware,async(req,res)=>{
+    try{
+       const{recipient} = req.params;
+       const sender = req.user.id;
+       if(!recipient)
+        return res.status(400).json({message:"Recipient Required"})
+       const message = await Message.find({
+        type:"direct",
+        $or:[
+            {sender:sender,recipient:recipient},
+            {sender:recipient,recipient:sender}
+        ]
+       }).populate("sender","username name").sort({createdAt:1}).limit(50);
+       if(message.length===0)
+        return res.status(404).json({message:"No message history"});
+       return res.status(200).json(message);
+    }
+    catch(err){
+        return res.status(500).json({message:err.message})
+    }
+})
+
 router.post("/",authMiddleware,async(req,res)=>{
     try{
         const{name,description,isPrivate} = req.body;
