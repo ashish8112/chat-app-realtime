@@ -6,7 +6,7 @@ export default function ChatWindow({room,user}){
     const [loading,setLoading] = useState(true);
     const [content,setContent] = useState("");
     useEffect(()=>{
-        setMessages([]) // when chat window  changed during interval of async message should be clean
+        setMessages([]) // when chat window  changed during interval of async function laod fresh new message it should be clean
         setLoading(true)
          if(room)
          {
@@ -36,7 +36,7 @@ export default function ChatWindow({room,user}){
             try{
                 const roomId=room._id;
                 const {data} =await API.get(`/rooms/${roomId}/messages`)
-                setMessages(data);
+                setMessages(data); // it replace entire messages variable as it is not callback function with spread operator
                 setLoading(false);
             }
             catch(err)
@@ -52,7 +52,7 @@ export default function ChatWindow({room,user}){
             try{
                 const recipientId=user._id;
                 const {data} = await API.get(`/rooms/${recipientId}/dm`);
-                setMessages(data);
+                setMessages(data); // it replace entire messages variable as it is not callback function with spread operator
                 setLoading(false);
             }
             catch(err){
