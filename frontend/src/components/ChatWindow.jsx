@@ -6,6 +6,8 @@ export default function ChatWindow({room,user}){
     const [loading,setLoading] = useState(true);
     const [content,setContent] = useState("");
     useEffect(()=>{
+        setMessages([])
+        setLoading(true)
          if(room)
          {
             fetchRoomMessages();
