@@ -6,7 +6,7 @@ const Message = require("../models/Message")
 
 router.get("/",async(req,res)=>{
     try{
-        const rooms = await Room.find({isPrivate:false});//  means find only those whosse isPrivate field is false
+        const rooms = await Room.find({isPrivate:false}).populate("createdBy","username avatar");//  means find only those whosse isPrivate field is false
         if(rooms.length===0)
             return  res.status(404).json({message:"No Public Room Available"})
         return res.status(200).json(rooms);
