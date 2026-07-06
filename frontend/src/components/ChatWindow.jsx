@@ -8,18 +8,29 @@ export default function ChatWindow({room,user}){
     useEffect(()=>{
          if(room)
          {
-            fetchMessages();
+            fetchRoomMessages();
             const socket = getSocket();
             socket.emit("joinRoom",room._id);
             socket.on("newMessage",(msg)=>{
-                ((preMesg)=>[...preMesg,msg])
+                setMessages((preMesg)=>[...preMesg,msg])
             })
             return()=>{
                 socket.emit("leaveRoom",room._id);
                 socket.off("newMessage");
             }
          }
-         async function fetchMessages(){
+         if(user)
+         {
+            fetchUserMessages();
+            const socket = getSocket();
+            socket.on("directMessage",(msg)=>{
+                setMessages(prev=>[...prev,msg]) // because we need array not object
+            })
+            return()=>{
+                socket.off("directMessage")
+            }
+         }
+         async function fetchRoomMessages(){
             try{
                 const roomId=room._id;
                 const {data} =await API.get(`/rooms/${roomId}/messages`)
@@ -34,16 +45,31 @@ export default function ChatWindow({room,user}){
                
             }
          }
+
+         async function fetchUserMessages(){
+            try{
+                const recipientId=user._id;
+                const {data} = await API.get(`/rooms/${recipientId}/dm`);
+                setMessages(data);
+                setLoading(false);
+            }
+            catch(err){
+                setLoading(false);
+                setMessages([]);
+                alert(err.response?.data?.message||"Message fetch Failed");
+            }
+         }
         
     },[room,user]) //[room] is necessary because useEffect has executed one time while rendering so if a user choosed another room it must re render again for chatwindow.
     function sendMessage(){
         if(!content) return;
         const socket = getSocket();
-        socket.emit("sendMessage",{roomId:room._id,content})
+        if(room) socket.emit("sendMessage", { roomId: room._id, content })
+        if(user) socket.emit("sendDirect", { recipientId: user._id, content })
         setContent("");
     }
 
-    if(!room&!user)
+    if(!room&&!user)
         return <p>Select a room or user to start Chatting</p>
     if(loading)
         return <p>Loading Messages ...</p>
