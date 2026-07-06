@@ -1,10 +1,36 @@
 import API from "../api/axios"
 import { useState,useEffect } from "react"
 import { getSocket } from "../socket";
-export default function ChatWindow({room,user}){
+import { useRef } from "react";
+import { useAuth } from "../context/AuthContext";
+export default function ChatWindow({room,user,onClose}){
     const [messages,setMessages] = useState([]);
     const [loading,setLoading] = useState(true);
     const [content,setContent] = useState("");
+    const messageEnd = useRef(null);
+    const {user:me} = useAuth(); // rename user to me insted of this const auth = useAuth(); const me = auth.user;
+    const [isUserOnline,setIsUserOnline]=useState(user?.isOnline||false) //this user is selected user not useAuth main user means It's not me or logged in user it's recipient
+    function scrollToBottom(){
+        messageEnd.current?.scrollIntoView({behavior:"smooth"})
+    }
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+    useEffect(()=>{
+        if(!user) return;
+        setIsUserOnline(user.isOnline);
+        const socket = getSocket();
+        socket.on("userOnline",({userId})=>{
+            if(user._id===userId) setIsUserOnline(true);
+        })
+        socket.on("userOffline",({userId})=>{
+            if(user._id===userId) setIsUserOnline(false);
+        })
+        return()=>{
+            socket.off("userOnline");
+            socket.off("userOffline");
+        }
+    },[user])
     useEffect(()=>{
         setMessages([]) // when chat window  changed during interval of async function laod fresh new message it should be clean
         setLoading(true)
@@ -64,7 +90,7 @@ export default function ChatWindow({room,user}){
         
     },[room,user]) //[room] is necessary because useEffect has executed one time while rendering so if a user choosed another room it must re render again for chatwindow.
     function sendMessage(){
-        if(!content) return;
+        if(!content.trim()) return alert("Write Something first");
         const socket = getSocket();
         if(room) socket.emit("sendMessage", { roomId: room._id, content })
         if(user) socket.emit("sendDirect", { recipientId: user._id, content })
@@ -78,15 +104,36 @@ export default function ChatWindow({room,user}){
         
     return(
         <div className="chat-window">
-        <h1>Chat window</h1>
+        <div className="chat-header">
+            <div className="name-avatar">
+                <img src={room?room.createdBy.avatar:user.avatar}/>
+                <div>
+                    <p>{room? room.name : user.username}</p>
+                    {user&&<p className="status-indicator">{isUserOnline?"Online":"Offline"}</p>}
+                </div>
+                
+            </div>
+            <div className="description">
+                <p>{room && room.description }</p>
+                <button onClick={onClose}>&times;</button>
+            </div>
+        </div>
+        <div className="messages-container">
         {messages.length===0?<p style={{marginBottom:"0.6rem"}}>Type first Message in this Room</p>: 
         messages.map((message)=>(
-            <div key={message._id} className="message-box">
+            <div key={message._id} className={`message-box ${message.sender.username===me.username?"my-message":"other-message"}`}>
             {message.sender.username}: {message.content}
+            <span className="timestamp">
+                {new Date(message.createdAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+            </span>
             </div>
         ))}
-        <input value={content} onChange={(e)=>setContent(e.target.value)} />
+        <div ref={messageEnd} />
+        </div>
+        <div className="input-send">
+        <input value={content} onChange={(e)=>setContent(e.target.value)} onKeyDown={(e)=>{if(e.key==="Enter")sendMessage()}}/>
         <button onClick={sendMessage}>Send</button>
+        </div>
         </div>
     )
 }

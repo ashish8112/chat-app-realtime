@@ -6,11 +6,15 @@ export default function Home(){
     const navigate = useNavigate();
     const [selectedRoom,setSelectedRoom] = useState(null);
     const [selectedUser,setSelectedUser] = useState(null);
+    function resetChat(){
+        setSelectedRoom(null);
+        setSelectedUser(null);
+    }
     return (
         <>
         <div className="home-container">
         <Sidebar onRoomSelect={setSelectedRoom} onUserSelect={setSelectedUser}/>
-        <ChatWindow room={selectedRoom} user={selectedUser}/>
+        <ChatWindow room={selectedRoom} user={selectedUser} onClose={resetChat}/>
         </div>
         </>
     )

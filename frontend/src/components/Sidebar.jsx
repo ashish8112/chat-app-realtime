@@ -47,6 +47,7 @@ export default function Sidebar({onRoomSelect,onUserSelect}){
             </li>
         ))}
         </ul>
+        <hr></hr>
             <div className="sidebar-secondaryHeading">
                 <h1 className="private-heading" style={{textAlign:"center"}}>Private Chat</h1>
                 <ul className="publicRoom-container">
