@@ -1,13 +1,24 @@
 import API from "../api/axios"
 import { useState,useEffect } from "react"
 import { getSocket } from "../socket";
-export default function ChatWindow({room}){
+export default function ChatWindow({room,user}){
     const [messages,setMessages] = useState([]);
     const [loading,setLoading] = useState(true);
     const [content,setContent] = useState("");
     useEffect(()=>{
-         if(!room)
-            return;
+         if(room)
+         {
+            fetchMessages();
+            const socket = getSocket();
+            socket.emit("joinRoom",room._id);
+            socket.on("newMessage",(msg)=>{
+                ((preMesg)=>[...preMesg,msg])
+            })
+            return()=>{
+                socket.emit("leaveRoom",room._id);
+                socket.off("newMessage");
+            }
+         }
          async function fetchMessages(){
             try{
                 const roomId=room._id;
@@ -23,17 +34,8 @@ export default function ChatWindow({room}){
                
             }
          }
-         fetchMessages();
-         const socket = getSocket();
-         socket.emit("joinRoom",room._id);
-         socket.on("newMessage",(msg)=>{
-            setMessages((preMesg)=>[...preMesg,msg])
-         })
-         return()=>{
-            socket.emit("leaveRoom",room._id);
-            socket.off("newMessage");
-         }
-    },[room]) //[room] is necessary because useEffect has executed one time so if there would be no room in dependency useEffect method will not execute
+        
+    },[room,user]) //[room] is necessary because useEffect has executed one time while rendering so if a user choosed another room it must re render again for chatwindow.
     function sendMessage(){
         if(!content) return;
         const socket = getSocket();
@@ -41,8 +43,8 @@ export default function ChatWindow({room}){
         setContent("");
     }
 
-    if(!room)
-        return <p>Select a room to start Chatting</p>
+    if(!room&!user)
+        return <p>Select a room or user to start Chatting</p>
     if(loading)
         return <p>Loading Messages ...</p>
         
