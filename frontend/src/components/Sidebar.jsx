@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import API from "../api/axios"
 import CreateRoom from "./CreateRoom";
+import { getSocket } from "../socket";
 
 export default function Sidebar({onRoomSelect,onUserSelect}){
     const [rooms,setRooms] = useState([]);
@@ -31,12 +32,25 @@ export default function Sidebar({onRoomSelect,onUserSelect}){
         }
         getUsers();
     },[])
+    useEffect(()=>{
+        const socket = getSocket();
+        socket.on("userOnline",({userId})=>{
+            setUsers(prev=>prev.map(u=>u._id===userId?{...u,isOnline:true}:u))
+        })
+        socket.on("userOffline",({userId})=>{
+            setUsers(prev=>prev.map(u=>u._id===userId?{...u,isOnline:false}:u))
+        })
+        return()=>{
+            socket.off("userOnline")
+            socket.off("userOffline")
+        }
+    },[]) 
     if(loading)
         return <p>Loading ....</p>
     return (
         <div className="sidebar-container">
             <div id="sidebar-heading">
-                <h1 id="public-heading">Public Chat</h1>
+                <h1 id="public-heading">Group Chat</h1>
                 <CreateRoom onRoomCreated={getRooms}/>
             </div>
         
@@ -49,7 +63,7 @@ export default function Sidebar({onRoomSelect,onUserSelect}){
         </ul>
         <hr></hr>
             <div className="sidebar-secondaryHeading">
-                <h1 className="private-heading" style={{textAlign:"center"}}>Private Chat</h1>
+                <h1 className="private-heading" style={{textAlign:"center"}}>Direct Message</h1>
                 <ul className="publicRoom-container">
                 {users.map((user)=>(
                     <li key={user.username} className="publicRoom-list" onClick={()=>{onUserSelect(user);onRoomSelect(null)}}>
