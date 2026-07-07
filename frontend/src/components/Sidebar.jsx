@@ -63,7 +63,7 @@ export default function Sidebar({onRoomSelect,onUserSelect}){
         </ul>
         <hr></hr>
             <div className="sidebar-secondaryHeading">
-                <h1 className="private-heading" style={{textAlign:"center"}}>Direct Message</h1>
+                <h1 className="private-heading" style={{textAlign:"center",marginBottom:"0.5rem"}}>Direct Message</h1>
                 <ul className="publicRoom-container">
                 {users.map((user)=>(
                     <li key={user.username} className="publicRoom-list" onClick={()=>{onUserSelect(user);onRoomSelect(null)}}>
