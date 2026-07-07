@@ -479,17 +479,30 @@ padding: 20px;
 @media (max-width: 768px) {
   .home-container {
     grid-template-columns: 1fr;
-    grid-template-rows:40vh 60vh;
-    gap:1rem;
+    grid-template-rows:1fr;
+    height: calc(100vh - 5.2rem);
+  }
+
+  .hide-mobile{
+    display: none;
   }
   .chat-window{
     border-top: 1px solid black;
-    height: 60vh;
+    height: calc(100vh - 5.2rem);
   }
+
   nav ul li{
     padding: 0.5rem 0.7rem;
   }
   a{
     text-decoration: none;
+  }
+  .publicRoom-container{
+    max-height: 25vh;
+    overflow-y:auto;
+  }
+  .sidebar-secondaryHeading{
+    flex:1;
+    overflow-y:auto;
   }
 }
