@@ -27,13 +27,13 @@ export default function CreateRoom({onRoomCreated}){
     return(
         <div className="create-room-container">
             <button className="btn-trigger" onClick={()=>setIsOpen(true)}>
-                Create New Room
+                Create Group
             </button>
             {isOpen&&(
                 <div className="modal-overlay" onClick={()=>setIsOpen(false)}>
                     <div className="modal-content" onClick={(e)=>e.stopPropagation()}>
                         <div className="modal-header">
-                           <h3>Create Room</h3>
+                           <h3>Create Group</h3>
                            <button className="btn-close" onClick={()=>setIsOpen(false)}>&times;</button>
                         </div>
 
