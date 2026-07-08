@@ -1,6 +1,7 @@
 import Sidebar from "../components/Sidebar"
 import ChatWindow from "../components/ChatWindow";
 import { useState } from "react";
+import {ErrorBoundary,getErrorMessage} from "react-error-boundary"
 export default function Home(){
     const [selectedRoom,setSelectedRoom] = useState(null);
     const [selectedUser,setSelectedUser] = useState(null);
@@ -9,16 +10,22 @@ export default function Home(){
         setSelectedUser(null);
     }
     return (
-        <>
-        <div className="home-container">
-            <div className={selectedRoom||selectedUser ? "hide-mobile":""}>
-                <Sidebar onRoomSelect={setSelectedRoom} onUserSelect={setSelectedUser}/>
+         <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => (
+            <div role="alert">
+            <p>Something went wrong:</p>
+            <pre>{getErrorMessage(error)}</pre>
+            <button onClick={resetErrorBoundary}>Try again</button>
             </div>
-            <div className={!selectedRoom&&!selectedUser?"hide-mobile":""}>
-                <ChatWindow room={selectedRoom} user={selectedUser} onClose={resetChat}/>
+            )}>
+            <div className="home-container">
+                <div className={selectedRoom||selectedUser ? "hide-mobile":""}>
+                    <Sidebar onRoomSelect={setSelectedRoom} onUserSelect={setSelectedUser}/>
+                </div>
+                <div className={!selectedRoom&&!selectedUser?"hide-mobile":""}>
+                    <ChatWindow room={selectedRoom} user={selectedUser} onClose={resetChat}/>
+                </div>
             </div>
-            </div>
-        </>
+         </ErrorBoundary>
     )
 }
  //if group chat or direct message is selected display none of sidebar .and if both are not selected display none chatwindow
