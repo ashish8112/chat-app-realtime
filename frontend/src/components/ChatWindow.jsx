@@ -121,8 +121,8 @@ export default function ChatWindow({room,user,onClose}){
         <div className="messages-container">
         {messages.length===0?<p style={{marginBottom:"0.6rem"}}>Type first Message in this Room</p>: 
         messages.map((message)=>(
-            <div key={message._id} className={`message-box ${message.sender.username===me.username?"my-message":"other-message"}`}>
-            {message.sender.username}: {message.content}
+            <div key={message._id} className={`message-box ${message.sender?.username===me.username?"my-message":"other-message"}`}>
+            {message.sender?.username}: {message.content}
             <span className="timestamp">
                 {new Date(message.createdAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
             </span>
